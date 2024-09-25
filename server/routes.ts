@@ -71,7 +71,13 @@ class Routes {
   async deletePost(session: SessionDoc, id: string) {
     // TODO 3: delete the post with the given ID
     //  - require the user deleting to be the author of the post (review `updatePost` above)
-    throw new Error("Not implemented!");
+
+    const user = Sessioning.getUser(session); //current user
+    const oid = new ObjectId(id); //post id
+    await Posting.assertAuthorIsUser(oid, user); //check if user is author of post
+    return await Posting.delete(oid); //delete post
+
+    // throw new Error("Not implemented!");
   }
 }
 
